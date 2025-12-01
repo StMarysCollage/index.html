@@ -1,18 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<title>Redirigiendo...</title>
-<script>
-    const enlaces = [
-        "https://wa.me/573025342155",
-        "https://wa.me/573507375446"
-    ];
-    const elegido = enlaces[Math.floor(Math.random() * enlaces.length)];
-    window.location.href = elegido;
-</script>
+    <meta charset="UTF-8">
+    <title>Redirección WhatsApp</title>
+    <script>
+        // Lista de asesores con sus números y mensajes predeterminados
+        const asesores = [
+            { numero: "3238086251", mensaje: "Hola, me gustaría recibir más información sobre el programa de inglés." },
+            { numero: "3503209112", mensaje: "Buenas, estoy interesado en el programa de inglés." },
+            { numero: "3506692367", mensaje: "Hola, quisiera saber detalles del curso de inglés." },
+            { numero: "3181068406", mensaje: "Agradezco si me pueden brindar una asesoría sobre el programa de ingles" },
+            { numero: "3044565012", mensaje: "¡Hola! Me gustaría saber más sobre el programa de inglés" },
+            { numero: "3025914569", mensaje: "Quiero info del programa de inglés." },
+            { numero: "3025911544", mensaje: "Hola, ¿tienes asesoría disponible para el programa de inglés?" }
+        ];
+
+        // Función de redirección secuencial
+        function redirigir() {
+            // Obtener el índice guardado (si existe)
+            let indice = localStorage.getItem("ultimoAsesor");
+
+            // Si no existe, empezamos por el primero (0)
+            if (indice === null) {
+                indice = 0;
+            } else {
+                indice = parseInt(indice) + 1;
+            }
+
+            // Reiniciar si se pasa del total
+            if (indice >= asesores.length) {
+                indice = 0;
+            }
+
+            // Guardar el índice actualizado
+            localStorage.setItem("ultimoAsesor", indice);
+
+            // Obtener asesor correspondiente
+            const asesor = asesores[indice];
+            const mensajeCodificado = encodeURIComponent(asesor.mensaje);
+
+            // Redirigir a WhatsApp
+            window.location.href = `https://wa.me/57${asesor.numero}?text=${mensajeCodificado}`;
+        }
+    </script>
 </head>
-<body>
-Redirigiendo a un asesor...
+<body onload="redirigir()">
+    <h2>Redireccionando a un asesor...</h2>
 </body>
 </html>
